@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义的无菜单主题 -->
+    <style name="NoMenuTheme" parent="android:Theme.Material.Light">
+        <!-- 去除菜单样式 -->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="Theme.PureWhite" parent="android:Theme.Material.Light">
+        <!-- 应用背景 -->
+        <item name="android:windowBackground">#FAFAFA</item>
+        <!-- 所有主要颜色均为白色 -->
+        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="android:colorPrimary">#FAFAFA</item>
+<!--        <item name="android:colorPrimaryDark">#FFFFFF</item>-->
+        <item name="android:colorAccent">#FFFFFF</item>
+        <!-- 去掉分隔线的颜色 -->
+        <item name="android:listDivider">@android:color/transparent</item>
+        <!-- 控件默认字体颜色 -->
+        <item name="android:textColorPrimary">#000000</item> <!-- 可改为黑色，确保可读性 -->
+    </style>
+</resources>
+

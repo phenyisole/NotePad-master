@@ -1,0 +1,78 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="1dp"
+
+    app:cardBackgroundColor="#FFFFFF"
+    >
+<!--    app:cardBackgroundColor="#F0EFE6"-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:padding="10dip">
+
+        <TextView
+            android:id="@android:id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="7dip"
+            android:paddingTop="3dip"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_gravity="bottom"
+            android:padding="2dip">
+            <TextView
+                android:id="@+id/time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_gravity="end"
+                android:gravity="center"
+                android:paddingLeft="5dip"
+                android:paddingRight="5dip"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:text="2023-10-01 12:00 PM"
+                android:textColor="#808080"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/content_text"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="left|center_vertical"
+                android:textSize="16sp"
+                android:maxLength="13"
+                android:paddingLeft="5dip"
+                android:paddingRight="5dip"
+                android:singleLine="true"
+                android:text="23234243234"
+                android:textColor="#808080" />
+
+            <CheckBox
+                android:id="@+id/checkbox_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                /> <!-- 初始状态为隐藏 -->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

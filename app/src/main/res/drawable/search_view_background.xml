@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/search_view_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#EDEDED"/> <!-- 浅灰色 -->
+    <corners android:radius="15dp"/> <!-- 设置圆角半径 -->
+</shape>

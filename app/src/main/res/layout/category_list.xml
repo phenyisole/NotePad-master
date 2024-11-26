@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FAFAFA">
+
+    <!-- 文字标签 "便签" -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <!-- 文字标签 "便签" -->
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="便签"
+            android:textSize="30sp"
+            android:textColor="#000000"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- 新增的按钮 -->
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="&#xe605;"
+            android:fontFamily="@font/iconfont"
+            android:background="@android:color/transparent"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:layout_marginLeft="220dp" />
+    </LinearLayout>
+
+    <!-- 包含搜索框和ListView的布局 -->
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="搜索分类"
+            android:layout_marginLeft="-15dp"
+            android:layout_marginRight="-15dp"
+            android:iconifiedByDefault="false" />
+
+        <ExpandableListView
+            android:id="@+id/expandable_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/search_view"
+            android:paddingBottom="69dp"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp" />
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@android:color/transparent"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/button_left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="&#xe60f;"
+                android:textColor="#ABAAA8"
+                android:textSize="32sp"
+                android:fontFamily="@font/iconfont"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.2"
+                app:layout_constraintEnd_toStartOf="@id/button_center"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintVertical_bias="0.8" />
+
+
+            <View
+                android:id="@+id/horizontal_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#D2D1CF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button_center"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.45" />
+
+            <View
+                android:id="@+id/horizontal_line2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#D2D1CF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.45" />
+
+
+            <Button
+                android:id="@+id/button_center"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/iconfont"
+                android:text="&#xe70b;"
+                android:textColor="#FFA500"
+                android:textSize="70sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.4" />
+
+            <Button
+                android:id="@+id/button_right"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="&#xe7a4;"
+                android:textColor="#FFA500"
+                android:textSize="35sp"
+                android:fontFamily="@font/iconfont"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.2"
+                app:layout_constraintStart_toEndOf="@id/button_center"
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintVertical_bias="0.8" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+</LinearLayout>
