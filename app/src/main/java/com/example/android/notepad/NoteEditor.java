@@ -51,6 +51,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -393,6 +394,76 @@ public class NoteEditor extends Activity {
         }
         return super.onPrepareOptionsMenu(menu);
     }
+    private static final int REQUEST_CODE_EXPORT = 100; // 100 是一个随意选定的
+
+
+    private void export(){
+        // 创建一个输入框
+        EditText input = new EditText(this);
+        input.setHint("请输入文件名");
+
+        // 弹出对话框
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("导出笔记")
+                .setView(input)
+                .setPositiveButton("确定", (dialogInterface, which) -> {
+                    String fileName = input.getText().toString().trim();
+                    if (fileName.isEmpty()) {
+                        Toast.makeText(this, "文件名不能为空", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // 启动文件选择器
+                        openFilePicker(fileName);
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_EXPORT && resultCode == RESULT_OK) {
+            Uri fileUri = data.getData();
+
+            if (fileUri != null) {
+                saveNoteToFile(fileUri);
+            } else {
+                Toast.makeText(this, "文件创建失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void saveNoteToFile(Uri fileUri) {
+        try {
+            // 获取笔记内容
+            String noteContent = mText.getText().toString();
+
+            // 打开输出流并写入数据
+            try (OutputStream outputStream = getContentResolver().openOutputStream(fileUri)) {
+                if (outputStream != null) {
+                    outputStream.write(noteContent.getBytes());
+                    outputStream.flush();
+                    Toast.makeText(this, "笔记导出成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "无法打开文件", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "导出失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openFilePicker(String fileName) {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TITLE, fileName + ".txt"); // 用户输入的文件名
+        startActivityForResult(intent, REQUEST_CODE_EXPORT);
+    }
 
 
     @Override
@@ -405,7 +476,9 @@ public class NoteEditor extends Activity {
             updateNote(text, title); // 保存标题和内容
             finish();
             break;
-
+        case R.id.menu_export:
+            export();
+            break;
         case R.id.menu_delete:
             deleteNote();
             finish();

@@ -21,6 +21,9 @@
     <item android:id="@+id/menu_edit_category"
         android:icon="@drawable/ic_menu_edit"
         android:title="Edit Category" />
+    <item android:id="@+id/menu_export"
+        android:icon="@drawable/ic_menu_edit"
+        android:title="export" />
     <item android:id="@+id/menu_delete"
           android:icon="@drawable/ic_menu_delete"
           android:title="@string/menu_delete"
