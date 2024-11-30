@@ -1,21 +1,21 @@
-```markdown
+
 # NotepadMaster - 安卓笔记应用
 
 NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用，旨在帮助用户高效管理个人笔记。应用主要提供了笔记的基本管理功能，包括记录笔记时间戳、搜索功能、笔记分类和标签管理等，便于用户查看历史记录并快速定位需要的信息。
 
 ---
 
-## 功能简介
+## 功能模块
 
-### 基本功能
+### 基础功能
 1. **笔记显示时间戳**  
    每个笔记在创建或编辑时都会自动记录时间，并在笔记列表中展示，帮助用户追踪笔记的创建和更新信息。
 
 2. **搜索笔记功能**  
    提供强大的搜索功能，支持根据标题或内容中的关键字进行模糊匹配，快速定位目标笔记。
 
-### 扩展功能
-- **笔记分类和标签管理**  
+### 附加功能
+- **笔记分类管理**  
   支持为笔记添加分类标签，方便用户对笔记进行归类管理。  
 - **笔记导出功能**  
   用户可以选择导出单条或批量导出笔记，便于备份和分享。  
@@ -31,6 +31,18 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
   - SQLite（本地存储）
 - **IDE**：Android Studio
 - **构建工具**：Gradle
+
+---
+
+## 环境配置
+
+### 依赖与库
+- **Android SDK**：需要至少安装 SDK 版本 30。
+- **Gradle**：确保已安装支持的 Gradle 版本。
+
+### Android Studio 配置
+1. 使用 **Android Studio** 作为开发工具，确保安装了最新版本的 IDE。
+2. 配置好 Gradle 构建工具，确保项目的依赖项正确同步。
 
 ---
 
@@ -74,7 +86,6 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
        String formattedDate = dateFormat.format(new Date(timestamp));
        TextView timeTextView = (TextView) view.findViewById(R.id.time_text);
        timeTextView.setText(formattedDate);
-
    ```
 
    **功能截图**：  
@@ -108,6 +119,19 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
         adapter.changeCursor(cursor);
     }
    ```
+   ```xml
+   <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="搜索笔记"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="30dp"
+            android:paddingBottom="5dp"
+            android:iconifiedByDefault="false"
+            android:background="@drawable/search_view_background" />  />
+   ```
 
    **功能截图**：  
    <table>
@@ -121,27 +145,81 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
 
 ---
 
-### 3. **笔记分类和标签管理**
+### 3. **笔记分类管理**
    **功能描述**：  
-   为了帮助用户更好地管理笔记，应用支持为每个笔记添加自定义标签和分类。用户可以根据这些标签和分类对笔记进行组织和查找，提高管理效率。
+   为了帮助用户更好地管理笔记，应用支持为每个笔记添加自定义分类。用户可以根据这些分类对笔记进行组织和查找，提高管理效率。
 
    **实现原理**：  
-   - 为每个笔记增加分类和标签字段，存储到 SQLite 中。  
-   - 提供界面供用户为笔记添加和编辑标签，支持按标签进行筛选。
+   - 为每个笔记增加分类字段，存储到 SQLite 中。
+   - 支持分类，修改，删除
+   - 提供界面供用户为笔记添加和编辑分类，支持按分类进行筛选。
 
    **代码示例**：
    ```java
-   // 为笔记添加标签
-   ContentValues values = new ContentValues();
-   values.put("title", "新的笔记");
-   values.put("content", "笔记内容...");
-   values.put("tags", "工作,重要");  // 设置标签
-   SQLiteDatabase db = dbHelper.getWritableDatabase();
-   db.insert("notes", null, values);
+   String CREATE_TABLE_CATEGORY_INFO = "CREATE TABLE " + NotePad.CategoryInfo.TABLE_NAME + " ("
+                   + NotePad.CategoryInfo._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                   + NotePad.CategoryInfo.COLUMN_NAME_CATEGORY + " TEXT NOT NULL"
+                   + ");";
+           db.execSQL(CREATE_TABLE_CATEGORY_INFO);
+   ```
+   ```java
+   //添加分类
+   private void showAddCategoryDialog() {
+    final EditText input = new EditText(this);
+    input.setHint("请输入新分类名称");
+
+    new AlertDialog.Builder(this)
+            .setTitle("添加新分类")
+            .setView(input)
+            .setPositiveButton("确定", (dialog, which) -> {
+                String newCategory = input.getText().toString().trim();
+                if (!newCategory.isEmpty()) {
+                    addCategoryToDatabase(newCategory);
+                }
+            })
+            .setNegativeButton("取消", null)
+            .show();
+   }
+
+   private void addCategoryToDatabase(String newCategory) {
+       ContentValues values = new ContentValues();
+       values.put("category", newCategory);
+       long rowId = db.insert("CategoryInfo", null, values);
+       if (rowId > 0) {
+           groupList.add(newCategory);
+           childList.put(newCategory, new ArrayList<>());
+           adapter.notifyDataSetChanged();
+       }
+   }
+   ```
+   ```java
+//将笔记绑定到分类
+   private void updateCategory(String selectedCategory) {
+        // 获取当前笔记的 URI（在 onCreate 中已经通过 mUri 获取）
+        ContentValues values = new ContentValues();
+        values.put("category", selectedCategory); // 更新 category 字段
+
+        // 更新数据库中的分类
+        int rowsUpdated = getContentResolver().update(mUri, values, null, null);
+
+        if (rowsUpdated > 0) {
+            // 更新成功，显示消息
+            Toast.makeText(this, "分类更新成功", Toast.LENGTH_SHORT).show();
+        } else {
+            // 更新失败，显示错误消息
+            Toast.makeText(this, "分类更新失败", Toast.LENGTH_SHORT).show();
+        }
+    }
    ```
 
    **功能截图**：  
-   ![分类功能截图](你的图片路径/分类功能截图.png)  
+   <div align="center">
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category1.png" width="23%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category2.png" width="23%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category3.png" width="23%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category4.png" width="23%" />
+   </div>
+
    该截图展示了笔记添加标签的界面，用户可以通过标签进行筛选和管理。
 
 ---
@@ -184,6 +262,7 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
 ---
 
 ## 文件结构
+
 ```plaintext
 NotepadMaster/
 ├── app/
@@ -191,26 +270,39 @@ NotepadMaster/
 │   │   ├── main/
 │   │   │   ├── java/
 │   │   │   │   ├── com/
-│   │   │   │   │   ├── notepadmaster/
-│   │   │   │   │   │   ├── data/
-│   │   │   │   │   │   │   ├── Note.java        # 数据模型
-│   │   │   │   │   │   │   ├── DBHelper.java    # SQLite 数据库帮助类
-│   │   │   │   │   │   │   └── NoteDao.java      # 数据库操作
-│   │   │   │   │   │   ├── ui/
-│   │   │   │   │   │   │   ├── MainActivity.java # 主界面
-│   │   │   │   │   │   │   └── EditActivity.java # 编辑界面
-│   │   │   │   │   │   └── NoteRepository.java   # 数据仓库
+│   │   │   │   │   ├── example/
+│   │   │   │   │   │   ├── android/
+│   │   │   │   │   │   │   ├── notepad/
+│   │   │   │   │   │   │   │   ├── CategoryAdapter.java       # 分类适配器
+│   │   │   │   │   │  
+
+ │   │   ├── CategoryList.java          # 分类列表
+│   │   │   │   │   │   │   │   ├── NoteEditor.java            # 笔记编辑器
+│   │   │   │   │   │   │   │   ├── NotePad.java                # 笔记数据管理
+│   │   │   │   │   │   │   │   ├── NotePadProvider.java        # 笔记内容提供者
+│   │   │   │   │   │   │   │   ├── NotesList.java              # 笔记列表
+│   │   │   │   │   │   │   │   ├── NotesLiveFolder.java        # 笔记存档
+│   │   │   │   │   │   │   │   └── TitleEditor.java            # 标题编辑器
 │   │   ├── res/
+│   │   │   ├── drawable/
+│   │   │   │   ├── add.png
+│   │   │   │   ├── app_notes.png
+│   │   │   │   ├── background_1.png
+│   │   │   │   ├── background_2.png
+│   │   │   │   ├── background_3.png
+│   │   │   │   └── ...
 │   │   │   ├── layout/
-│   │   │   │   ├── activity_main.xml
-│   │   │   │   └── activity_edit.xml
+│   │   │   │   ├── activity_notes_list.xml
+│   │   │   │   ├── category_item.xml
+│   │   │   │   └── note_editor.xml
+│   │   │   └── values/
+│   │   │       ├── strings.xml
+│   │   │       └── styles.xml
 ├── build.gradle
 └── README.md
 ```
 
 ---
-
-
 
 ## 贡献指南
 - Fork 本仓库，创建一个新的分支（`feature/your-feature`），在该分支上进行开发。
@@ -226,4 +318,3 @@ NotepadMaster/
 
 ## 联系方式
 - **维护者**：张鸿雨
-```
