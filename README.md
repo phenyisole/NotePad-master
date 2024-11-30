@@ -1,5 +1,3 @@
-好的，了解了！以下是详细版的 **NotepadMaster** 应用的 `README.md` 文件，其中包括每个功能模块的 **功能说明**、**代码示例** 和 **功能截图** 的描述。确保字数足够且内容详细：
-
 ```markdown
 # NotepadMaster - 安卓笔记应用
 
@@ -63,22 +61,24 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
 
    **代码示例**：
    ```java
-   // 获取当前时间戳并格式化
-   long timestamp = System.currentTimeMillis();
-   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-   String formattedDate = sdf.format(new Date(timestamp));
-   
-   // 保存笔记与时间戳到 SQLite
-   ContentValues values = new ContentValues();
-   values.put("content", "这是一个新的笔记");
-   values.put("timestamp", formattedDate);
-   
-   SQLiteDatabase db = dbHelper.getWritableDatabase();
-   db.insert("notes", null, values);
+   private static final String[] PROJECTION = new String[] {
+            NotePad.Notes._ID, // 0
+            NotePad.Notes.COLUMN_NAME_TITLE, // 1
+            NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE,
+            NotePad.Notes.COLUMN_NAME_NOTE
+    };
+   ```
+   ```java
+       long timestamp = cursor.getLong(cursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE));
+       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+       String formattedDate = dateFormat.format(new Date(timestamp));
+       TextView timeTextView = (TextView) view.findViewById(R.id.time_text);
+       timeTextView.setText(formattedDate);
+
    ```
 
    **功能截图**：  
-   ![笔记显示时间戳](你的图片路径/时间戳截图.png)  
+   ![笔记显示时间戳](https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/timestamp.png)  
    该截图展示了在笔记列表中，笔记与其时间戳的显示效果。
 
 ---
@@ -94,23 +94,29 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
    **代码示例**：
    ```java
    // 查询数据库，进行模糊匹配
-   SQLiteDatabase db = dbHelper.getReadableDatabase();
-   String query = "SELECT * FROM notes WHERE title LIKE ? OR content LIKE ?";
-   Cursor cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", "%" + keyword + "%"});
+    private void performSearch(String query) {
+        // 根据查询条件过滤数据
+        Cursor cursor = managedQuery(
+                NotePad.Notes.CONTENT_URI,
+                PROJECTION,
+                NotePad.Notes.COLUMN_NAME_TITLE + " LIKE ?",
+                new String[]{"%" + query + "%"},
+                NotePad.Notes.DEFAULT_SORT_ORDER
+        );
 
-   // 将查询结果转化为笔记对象
-   List<Note> notes = new ArrayList<>();
-   while (cursor.moveToNext()) {
-       String title = cursor.getString(cursor.getColumnIndex("title"));
-       String content = cursor.getString(cursor.getColumnIndex("content"));
-       String timestamp = cursor.getString(cursor.getColumnIndex("timestamp"));
-       notes.add(new Note(title, content, timestamp));
-   }
-   cursor.close();
+        SimpleCursorAdapter adapter = (SimpleCursorAdapter) getListAdapter();
+        adapter.changeCursor(cursor);
+    }
    ```
 
    **功能截图**：  
-   ![搜索功能截图](你的图片路径/搜索功能截图.png)  
+   <table>
+     <tr>
+       <td><img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/search1.png" width="300" /></td>
+       <td><img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/search2.png" width="300" /></td>
+     </tr>
+   </table>
+
    该截图展示了搜索笔记功能的界面效果，用户可以输入关键词并快速显示匹配的笔记。
 
 ---
