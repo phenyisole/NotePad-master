@@ -314,6 +314,7 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
      
    **代码示例**：  
    ```
+//主ui基本框架（缩略） 
       <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -438,7 +439,12 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
 ## 界面展示
 
 ### 主界面 - 笔记列表
-![主界面截图](https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui.png)  
+<table>
+     <tr>
+       <td><img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui.png" width="300" /></td>
+       <td><img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui5.png" width="300" /></td>
+     </tr>
+   </table>
 该截图展示了应用的主界面，用户可以在此查看所有笔记及其时间戳。
 
 ---
