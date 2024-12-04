@@ -153,7 +153,7 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
 
    **实现原理**：  
    - 为每个笔记增加分类字段，存储到 SQLite 中。
-   - 支持分类，修改，删除
+   - 支持分类，修改，删除(长按分类)
    - UI 交互：通过弹出对话框或选择器让用户为笔记分配分类，支持多分类管理。
    - 提供界面供用户为笔记添加和编辑分类，支持按分类进行筛选。
    - 数据库更新：用户选择分类时，更新笔记的分类字段，通过 ContentValues 更新数据库中的分类信息。
@@ -218,10 +218,21 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
 
    **功能截图**：  
    <div align="center">
-    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category11.png" width="23%" />
-    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category2.png" width="23%" />
-    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category3.png" width="23%" />
-    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category4.png" width="23%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category12.png" width="30%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category13.png" width="30%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category14.png" width="30%" />
+   </div>
+   
+   <div align="center">
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category15.png" width="30%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category3.png" width="30%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category2.png" width="30%" />
+   </div>
+
+   <div align="center">
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category16.png" width="30%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category18.png" width="30%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/category17.png" width="30%" />
    </div>
 
    该截图展示了笔记添加标签的界面，用户可以通过标签进行筛选和管理。
@@ -436,10 +447,11 @@ NotepadMaster 是一款基于 Google Notepad Master 开发的安卓笔记应用�
 <div align="center">
     <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui.png" width="30%" />
     <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui2.png" width="30%" />
-    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui3.png" width="30%" />
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui11.png" width="30%" />
    </div>
    
    <div align="center">
+    <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui3.png" width="30%" />
     <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui4.png" width="30%" />
     <img src="https://zhy-149.oss-cn-fuzhou.aliyuncs.com/Notepad/ui5.png" width="30%" />
    </div>
